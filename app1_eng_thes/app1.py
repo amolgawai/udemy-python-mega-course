@@ -11,31 +11,32 @@ ERR_DOESNT_EXIST = "The word doesn't exist. Please check the same."
 ERR_SPELL_MISTAKE = "Did you mean "
 SEPARATOR = "=================="
 
+
 def get_definition(word):
-    word_noun = word.capitalize()
-    word_acronym = word.upper()
     word = word.lower()
-    if word in data:
-        return data[word]
-    elif word_noun in data:
-        return data[word_noun]
-    elif word_acronym in data:
-        return data[word_acronym]
+    # noun, acronym and normal word forms
+    word_forms = [word, word.capitalize(), word.upper()]
+    for wrd_form in word_forms:
+        if wrd_form in data:
+            return data[wrd_form]
+   # check for spell mistake 
+    matches = get_close_matches(word, data.keys(), cutoff=0.8)
+    if matches:
+        return ERR_SPELL_MISTAKE + matches[0]
     else:
-        matches = get_close_matches(word, data.keys())
-        if matches:
-            return ERR_SPELL_MISTAKE + matches[0]
-        else:
-            return ERR_DOESNT_EXIST
+        return ERR_DOESNT_EXIST
+
 
 def print_output(str_or_lst):
-        print(SEPARATOR)
-        if type(str_or_lst) == list:
-                for item in str_or_lst:
-                        print(item)
-        else:
-            print(str_or_lst)
+    print(SEPARATOR)
+    if type(str_or_lst) == list:
+        for item in str_or_lst:
+            print(item)
+    else:
+        print(str_or_lst)
+
 
 input_word = input("Enter word: ")
 output = get_definition(input_word)
 print_output(output)
+
