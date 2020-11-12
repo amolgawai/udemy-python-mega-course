@@ -4,5 +4,6 @@
 - numpy
 - opencv
 - pandas
+- geopy
 
 ## Observations
