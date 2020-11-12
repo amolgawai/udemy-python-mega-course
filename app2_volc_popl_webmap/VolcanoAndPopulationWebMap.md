@@ -5,5 +5,6 @@
 - opencv
 - pandas
 - geopy
+- folium
 
 ## Observations

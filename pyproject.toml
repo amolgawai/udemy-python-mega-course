@@ -11,6 +11,7 @@ jupyter = "^1.0.0"
 notebook = "^6.1.5"
 geopy = "^2.0.0"
 opencv-python = "^4.4.0"
+folium = "^0.11.0"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
