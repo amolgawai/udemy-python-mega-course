@@ -33,8 +33,9 @@ def get_definition(word, data):
 
 
 def print_output(i_word, str_or_lst):
-    """ Print the string or list output
+    """ Print the word and the string or list output
     Keyword Arguments:
+    i_word -- word for which definition was asked
     str_or_lst -- object to be printed
     """
     sep_str = "=================="
