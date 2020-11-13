@@ -48,4 +48,7 @@ for lt, ln, el, name in zip(lat, lon, elev, name):
     #                            icon=folium.Icon(color=color_from_elevation(el))))
 
 my_map.add_child(fg)
+
+# world population
+my_map.add_child(folium.GeoJson(data=(open("world.json", "r", encoding="utf-8-sig").read())))
 my_map.save("Map1.html")
