@@ -47,8 +47,19 @@ for lt, ln, el, name in zip(lat, lon, elev, name):
     #                            popup=folium.Popup(popup_iframe),
     #                            icon=folium.Icon(color=color_from_elevation(el))))
 
-my_map.add_child(fg)
 
 # world population
-my_map.add_child(folium.GeoJson(data=(open("world.json", "r", encoding="utf-8-sig").read())))
+fgp = folium.FeatureGroup(name="Population")
+fgp.add_child(folium.GeoJson(data=(open("world.json",
+										   "r",
+										   encoding="utf-8-sig").read()),
+								style_function=lambda x: {
+									'fillColor':'green' if x['properties']['POP2005'] < 10000000
+									else 'orange' if 10000000 <= x['properties']['POP2005'] < 20000000
+									else 'red'}))
+
+my_map.add_child(fg)
+my_map.add_child(fgp)
+# layer control
+my_map.add_child(folium.LayerControl())
 my_map.save("Map1.html")
