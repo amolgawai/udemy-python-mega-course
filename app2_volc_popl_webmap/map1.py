@@ -72,7 +72,7 @@ def generate_population_feature():
                                          "r",
                                          encoding="utf-8-sig").read()),
                               style_function=lambda x: {
-                                  'fillColor':clr_grdr1.get_color(
+                                  'fillColor': clr_grdr1.get_color(
                                       x['properties']['POP2005'])}))
 
     return fgp
