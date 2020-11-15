@@ -64,13 +64,16 @@ def generate_volcanos_feature(volcanos_df):
     return feature_group
 
 
-def generate_population_feature():
-    """ Generate World Population Feature Group"""
+def generate_population_feature(geo_json_data):
+    """ Generate World Population Feature Group
+    Keyword Arguments:
+    geo_json_data -- the GeoJson data in the form of file or dict or a string
+    Returns:
+    Feature Group with name "Population"
+    """
     clr_grdr1 = ColorRange(10000000, 20000000)
     fgp = flm.FeatureGroup(name="Population")
-    fgp.add_child(flm.GeoJson(data=(open("world.json",
-                                         "r",
-                                         encoding="utf-8-sig").read()),
+    fgp.add_child(flm.GeoJson(data=geo_json_data,
                               style_function=lambda x: {
                                   'fillColor': clr_grdr1.get_color(
                                       x['properties']['POP2005'])}))
@@ -85,7 +88,8 @@ def main():
                      zoom_start=6,
                      tiles="Stamen Terrain")
     my_map.add_child(generate_volcanos_feature(vlcn_df))
-    my_map.add_child(generate_population_feature())
+    geo_jason = open("world.json", "r", encoding="utf-8-sig").read()
+    my_map.add_child(generate_population_feature(geo_jason))
     # layer control
     my_map.add_child(flm.LayerControl())
     my_map.save("Map1.html")
