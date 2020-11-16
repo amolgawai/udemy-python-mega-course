@@ -4,3 +4,4 @@ Practicing the examples and apps from the Python Mega Course on Udemy - https://
 ## Apps
 - App1 - [English thesaurus](./app1_eng_thes/EnglishThesaurus.md)
 - App2 - [Volcano and Population Web Map](./app2_volc_popl_webmap/VolcanoAndPopulationWebMap.md)
+- App3 - [Website with Flask](./app3_flask_website/WebsiteWithFlask.md)
