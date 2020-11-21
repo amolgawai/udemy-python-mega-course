@@ -7,3 +7,4 @@ Build a desktop GUI bookstore app that has books information such as title, auth
 
 ## Observations
 On MacOS, if python is installed using homebrew or pyenv, tkinter is not available. In this case, the system default python may be used which generally is Python 2. The rest of the codebase here is Python 3
+First app with some challenges.
