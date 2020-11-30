@@ -28,7 +28,7 @@ def get_users():
 
 
 
-class ImageButton(ButtonBehavior, HoverBehavior, Image ):
+class ImageButton(ButtonBehavior, HoverBehavior, Image):
     pass
 
 
