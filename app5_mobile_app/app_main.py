@@ -10,6 +10,9 @@ import random
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.image import Image
+from kivy.uix.behaviors import ButtonBehavior
+from hoverable import HoverBehavior
 
 
 USER_DB = "user_db.json"
@@ -22,6 +25,11 @@ def get_users():
             db_file.seek(0)
             users = json.load(db_file)
     return users
+
+
+
+class ImageButton(ButtonBehavior, HoverBehavior, Image ):
+    pass
 
 
 class RootWidget(ScreenManager):
