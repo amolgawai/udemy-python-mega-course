@@ -1,10 +1,15 @@
 """Mobile app using kivy library
 """
 
+from datetime import datetime
+import os
+import json
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+
+USER_DB = "user_db.json"
 
 class RootWidget(ScreenManager):
     pass
@@ -28,8 +33,17 @@ class SignUpScreen(Screen):
         pwd : the password
 
         """
-        print(uname, pwd)
+        users = dict()
+        with open(USER_DB) as db_file:
+            db_file.seek(0)
+            if db_file.read(1):
+                users = json.load(db_file)
 
+        users[uname] = {'username': uname,
+                        'password': pwd,
+                        'created': datetime.now().strftime("%Y-%m-%d %H-%M-%S")}
+        with open(USER_DB, 'w') as db_file:
+            json.dump(users, db_file)
 
 class MainApp(App):
     def build(self):
@@ -37,5 +51,8 @@ class MainApp(App):
 
 
 if __name__ == "__main__":
+    if not os.path.exists(USER_DB):
+        with open(USER_DB, "w"):
+            pass
     Builder.load_file('AppDesign.kv')
     MainApp().run()
