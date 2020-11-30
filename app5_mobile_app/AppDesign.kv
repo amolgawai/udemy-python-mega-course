@@ -6,11 +6,18 @@
             Label:
                 text: "User Login"
             TextInput:
+                id: usr
                 hint_text: "Username"
             TextInput:
+                id: pwd
                 hint_text: "Password"
+                password: True
             Button:
                 text: "Login"
+                on_press: root.log_in(root.ids.usr.text, root.ids.pwd.text)
+            Label:
+                id: login_fail
+                text: ""
         GridLayout:
             cols: 2
             Button:
@@ -34,8 +41,39 @@
             text: "Create account"
             on_press: root.new_account(root.ids.usr.text, root.ids.pwd.text)
 
+<SignUpScreenSuccess>:
+    GridLayout:
+        cols: 1
+        Label:
+            text: "Sign up successful"
+        Button:
+            text: "Log in"
+            on_press: root.show_login()
+
+<AppMainScreen>:
+    GridLayout:
+        cols: 1
+        Button:
+            text: "Logout"
+            on_press: root.log_out()
+        Label:
+            text: "How do you feel"
+        TextInput:
+            id: feeling
+            hint_text: "Like: happy, sad, unloved etc."
+        Button:
+            text: "Enlighten me"
+            on_press: root.enlighten(root.ids.feeling.text)
+        Label:
+            id: quote
+            text: ""
+
 <RootWidget>:
     LoginScreen:
         name: "login_screen"
     SignUpScreen:
         name: "sign_up_screen"
+    SignUpScreenSuccess:
+        name: "sign_up_screen_success"
+    AppMainScreen:
+        name: "app_main_screen"
