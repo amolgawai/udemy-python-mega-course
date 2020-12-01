@@ -1,32 +1,17 @@
 """Mobile app using kivy library
 """
 
-from datetime import datetime
-import os
-import json
-import glob
-from pathlib import Path
-import random
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.image import Image
 from kivy.uix.behaviors import ButtonBehavior
 from hoverable import HoverBehavior
+import datastore
 
 
-USER_DB = "user_db.json"
-
-def get_users():
-    users = dict()
-    with open(USER_DB) as db_file:
-        db_file.seek(0)
-        if db_file.read(1):
-            db_file.seek(0)
-            users = json.load(db_file)
-    return users
-
-
+user_dstore = datastore.UserDataStore()
+quotes = datastore.QuotesDataStore()
 
 class ImageButton(ButtonBehavior, HoverBehavior, Image):
     pass
@@ -38,14 +23,17 @@ class RootWidget(ScreenManager):
 
 class LoginScreen(Screen):
     def log_in(self, uname, pwd):
-        users = get_users()
-        if uname in users and users[uname]['password'] == pwd:
+        if user_dstore.is_user_present(uname, pwd):
+            self.ids.usr.text = ""
+            self.ids.pwd.text = ""
             self.manager.current = "app_main_screen"
         else:
             self.ids.login_fail.text = "Wrong username or password"
     def sign_up(self):
         """Sign up button press callback
         """
+        self.ids.usr.text = ""
+        self.ids.pwd.text = ""
         self.manager.current = "sign_up_screen"
 
 
@@ -60,12 +48,9 @@ class SignUpScreen(Screen):
         pwd : the password
 
         """
-        users = get_users()
-        users[uname] = {'username': uname,
-                        'password': pwd,
-                        'created': datetime.now().strftime("%Y-%m-%d %H-%M-%S")}
-        with open(USER_DB, 'w') as db_file:
-            json.dump(users, db_file)
+        user_dstore.add_user(uname, pwd)
+        self.ids.usr.txt = ""
+        self.ids.pwd.txt = ""
         self.manager.current = "sign_up_screen_success"
 
 
@@ -79,16 +64,13 @@ class SignUpScreenSuccess(Screen):
 
 class AppMainScreen(Screen):
     def enlighten(self, feeling):
-        feeling = feeling.lower()
-        files = glob.glob("quotes/*txt")
-        feelings_available = [Path(filename).stem for filename in files]
-        if feeling in feelings_available:
-            with open(f"quotes/{feeling}.txt") as quote_file:
-                quotes = quote_file.readlines()
-            self.ids.quote.text = random.choice(quotes)
+        if quotes.is_feeling_available(feeling):
+            self.ids.quote.text = quotes.get_quote(feeling)
         else:
             self.ids.quote.text = "Try another feeling"
     def log_out(self):
+        self.ids.feeling.text = ""
+        self.ids.quote.text = ""
         self.manager.transition.direction = "right"
         self.manager.current = "login_screen"
 
@@ -96,11 +78,10 @@ class AppMainScreen(Screen):
 class MainApp(App):
     def build(self):
         return RootWidget()
+    def on_stop(self):
+        user_dstore.save()
 
 
 if __name__ == "__main__":
-    if not os.path.exists(USER_DB):
-        with open(USER_DB, "w"):
-            pass
     Builder.load_file('AppDesign.kv')
     MainApp().run()
