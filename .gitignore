@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+app4_bookshop_db
+app5_mobile_app/user_db.json

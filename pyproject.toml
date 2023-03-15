@@ -10,10 +10,10 @@ pandas = "^1.1.4"
 jupyter = "^1.0.0"
 notebook = "^6.1.5"
 geopy = "^2.0.0"
-opencv-python = "^4.4.0"
 folium = "^0.11.0"
 flask = "^1.1.2"
 Kivy = "^1.11.1"
+opencv-python = "^4.4.0"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
@@ -22,9 +22,9 @@ flake8 = "^3.8.4"
 ipython = "^7.19.0"
 pylint = "^2.6.0"
 
+[tool.poetry2conda]
+name = "udmyPyMegaCourse"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
-[tool.poetry2conda]
-name = "udmyPyMegaCourse"
